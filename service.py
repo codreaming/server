@@ -3,17 +3,35 @@
 import http
 import http.server
 import json
-
 import postgresql
+import datetime
+
+DATABSE = 'pq://postgres:postgres@localhost:5432/codreams'
 
 class BackendService(http.server.BaseHTTPRequestHandler):
+
+	class DBConnection(object):
+		def __init__(self):
+			global DATABASE
+			self.pg = postgresql.open(DATABASE)
+			self.ins = db.prepare("INSERT INTO requests (username, location, request, time) VALUES ($1, $2, $3, $4)")
+
+		def destroy(self):
+			self.pg.close()
+
+		def store_request(self, user, location, request):
+			curtime = datetime.datetime.now()
+			self.ins(user, location, request, str(curtime))
+
+	def __init__(self):
+		self.db = DBConnection()
 
 	def __process_request(self, request):
 		username = request["username"]
 		ip = request["ip"]
 		location = request["location"]
 		req = request["request"]
-
+		self.db.store_request(username, location, req)
 
 	def do_POST(self):
 		content_len = self.headers['Content-Length']
