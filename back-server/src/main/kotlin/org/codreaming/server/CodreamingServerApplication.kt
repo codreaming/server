@@ -1,10 +1,13 @@
 package org.codreaming.server
 
+import org.codreaming.server.config.AppProperties
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 
+@EnableConfigurationProperties(AppProperties::class)
 @SpringBootApplication
 class CodreamingServerApplication
 
