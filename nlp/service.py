@@ -14,7 +14,7 @@ class BackendService(http.server.BaseHTTPRequestHandler):
 		def __init__(self):
 			global DATABASE
 			self.pg = postgresql.open(DATABASE)
-			self.ins = db.prepare("INSERT INTO requests (username, location, request, time) VALUES ($1, $2, $3, $4)")
+			self.ins = self.pg.prepare("INSERT INTO requests (username, location, request, time) VALUES ($1, $2, $3, $4)")
 
 		def destroy(self):
 			self.pg.close()
