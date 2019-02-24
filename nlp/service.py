@@ -5,8 +5,11 @@ import http.server
 import json
 import postgresql
 import datetime
+import doc2vec
 
-DATABSE = 'pq://postgres:postgres@localhost:5432/codreams'
+DATABASE = 'pq://postgres:postgres@localhost:5432/codreams'
+
+WORD2VEC_MODEL_PATH = "../models/GoogleNews-vectors-negative300.bin.gz"
 
 class BackendService(http.server.BaseHTTPRequestHandler):
 
@@ -24,7 +27,9 @@ class BackendService(http.server.BaseHTTPRequestHandler):
 			self.ins(user, location, request, str(curtime))
 
 	def __init__(self):
-		self.db = DBConnection()
+		global WORD2VEC_MODEL_PATH
+		#self.db = DBConnection()
+		self.doc2vec = doc2vec.Doc2Vec(WORD2VEC_MODEL_PATH)
 
 	def __process_request(self, request):
 		username = request["username"]
