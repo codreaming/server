@@ -43,7 +43,7 @@ class Login extends Component {
                         <span className="or-text">OR</span>
                     </div>
                     <LoginForm {...this.props} />
-                    <span className="signup-link">New user? <Link to="/signup">Sign up!</Link></span>
+                    <span className="signup-link">New user? <Link to="/signUp">Sign up!</Link></span>
                 </div>
             </div>
         );

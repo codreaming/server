@@ -41,7 +41,8 @@ class CustomOAuth2UserService(
         }
         var user = userRepo.findByEmail(oAuth2UserInfo.getEmail())
         user = if (user != null) {
-            if (user.provider != AuthProvider.valueOf(oAuth2UserRequest.clientRegistration.registrationId)) {
+            if (user.provider != AuthProvider.valueOf(
+                            oAuth2UserRequest.clientRegistration.registrationId.toUpperCase())) {
                 throw OAuth2AuthenticationProcessingException("Looks like you're signed up with ${user.provider}"
                         + " account. Please use your ${user.provider} account to login.")
             }
@@ -58,7 +59,7 @@ class CustomOAuth2UserService(
                 oAuth2UserInfo.getName(),
                 oAuth2UserInfo.getEmail(),
                 oAuth2UserInfo.getImageUrl(),
-                AuthProvider.valueOf(oAuth2UserRequest.clientRegistration.registrationId),
+                AuthProvider.valueOf(oAuth2UserRequest.clientRegistration.registrationId.toUpperCase()),
                 oAuth2UserInfo.getId()
         )
         return userRepo.save(user)
