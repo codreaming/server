@@ -4,11 +4,13 @@ import org.codreaming.server.util.CookieUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
+import org.springframework.stereotype.Component
 import org.springframework.web.util.UriComponentsBuilder
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 
+@Component
 class OAuth2AuthenticationFailureHandler(
         @Autowired val authorizationRequestRepo: HttpCookieOAuth2AuthorizationRequestRepository
 ) : SimpleUrlAuthenticationFailureHandler() {

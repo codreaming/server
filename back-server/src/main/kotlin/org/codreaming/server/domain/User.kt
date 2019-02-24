@@ -24,13 +24,13 @@ class User(
         @Column(nullable = false)
         var email: String,
 
-        var imageUrl: String,
+        var imageUrl: String = "",
 
         @NotNull
         @Enumerated(EnumType.STRING)
         var provider: AuthProvider,
 
-        var providerId: String
+        var providerId: String = ""
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

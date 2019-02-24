@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 class ResourceNotFoundException(
-        val resourceName: String,
-        val fieldName: String,
-        val fieldValue: Any
+        resourceName: String,
+        fieldName: String,
+        fieldValue: Any?
 ) : RuntimeException(
         "$resourceName not found with $fieldName : '$fieldValue'"
 )
