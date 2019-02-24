@@ -25,33 +25,33 @@ spring:
 #      keyspace-name: codreaming_keyspace
 #      schema-action: create_if_not_exists
 
-security:
-  oauth2:
-    client:
-      registration:
-        google:
-          clientId: 686666634207-qc5ndod6ps99svo52pl8p7p11oqlp5cr.apps.googleusercontent.com
-          clientSecret: yGTt3Xu4DXwfejelFM2KyZW9
-#          accessTokenUri: https://www.googleapis.com/oauth2/v4/token
-#          userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth?hd=xyz.com
-#          redirectUri: http://localhost:8080
-          redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-          clientAuthenticationScheme: form
-          #        tokenName: oauth_token
-          #        authenticationScheme: query
-          scope:
-            - email
-            - profile
-#          resource:
-#            userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-#              preferTokenInfo: true
-#      accessTokenUri: https://graph.facebook.com/oauth/access_token
-#      userAuthorizationUri: https://www.facebook.com/dialog/oauth
-#      tokenName: oauth_token
-#      authenticationScheme: query
-#      clientAuthenticationScheme: form
-#    resource:
-#      userInfoUri: https://graph.facebook.com/me
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 686666634207-qc5ndod6ps99svo52pl8p7p11oqlp5cr.apps.googleusercontent.com
+            clientSecret: yGTt3Xu4DXwfejelFM2KyZW9
+  #          accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+  #          userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth?hd=xyz.com
+  #          redirectUri: http://localhost:8080
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            clientAuthenticationScheme: form
+            #        tokenName: oauth_token
+            #        authenticationScheme: query
+            scope:
+              - email
+              - profile
+  #          resource:
+  #            userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+  #              preferTokenInfo: true
+  #      accessTokenUri: https://graph.facebook.com/oauth/access_token
+  #      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+  #      tokenName: oauth_token
+  #      authenticationScheme: query
+  #      clientAuthenticationScheme: form
+  #    resource:
+  #      userInfoUri: https://graph.facebook.com/me
 app:
   auth:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
