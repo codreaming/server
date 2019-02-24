@@ -14,7 +14,7 @@ import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
 
 @Entity
-@Table(name = "user",
+@Table(name = "users",
         uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("email"))])
 class User(
         @Column(nullable = false)

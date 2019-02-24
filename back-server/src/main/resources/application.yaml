@@ -2,10 +2,13 @@ server:
   port: 8085
 spring:
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc:
           lob:
             non_contextual_creation: true
@@ -25,20 +28,23 @@ spring:
 security:
   oauth2:
     client:
-      clientId: 686666634207-qc5ndod6ps99svo52pl8p7p11oqlp5cr.apps.googleusercontent.com
-      clientSecret: yGTt3Xu4DXwfejelFM2KyZW9
-      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
-      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth?hd=xyz.com
-      redirectUri: http://localhost:8080
-      clientAuthenticationScheme: form
-        #        tokenName: oauth_token
-      #        authenticationScheme: query
-      scope:
-        - email
-        - profile
-      resource:
-        userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-        preferTokenInfo: true
+      registration:
+        google:
+          clientId: 686666634207-qc5ndod6ps99svo52pl8p7p11oqlp5cr.apps.googleusercontent.com
+          clientSecret: yGTt3Xu4DXwfejelFM2KyZW9
+#          accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+#          userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth?hd=xyz.com
+#          redirectUri: http://localhost:8080
+          redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+          clientAuthenticationScheme: form
+          #        tokenName: oauth_token
+          #        authenticationScheme: query
+          scope:
+            - email
+            - profile
+#          resource:
+#            userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+#              preferTokenInfo: true
 #      accessTokenUri: https://graph.facebook.com/oauth/access_token
 #      userAuthorizationUri: https://www.facebook.com/dialog/oauth
 #      tokenName: oauth_token
@@ -46,3 +52,14 @@ security:
 #      clientAuthenticationScheme: form
 #    resource:
 #      userInfoUri: https://graph.facebook.com/me
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
