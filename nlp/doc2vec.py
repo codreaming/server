@@ -5,11 +5,11 @@ import numpy as np
 import gensim
 import nltk
 
-from gensim.models import Word2Vec
+from gensim.models import Word2Vec, KeyedVectors
 
 class Doc2Vec:
     def __init__(self, modelPath):
-        self.word2vecModel = Word2Vec.load_word2vec_format(modelPath, binary=True)
+        self.word2vecModel = KeyedVectors.load_word2vec_format(modelPath, binary=True)
         self.word2vecModel.init_sims(replace=True)
 
     def doc2vec(self, text):

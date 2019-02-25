@@ -8,35 +8,48 @@ import datetime
 import doc2vec
 
 DATABASE = 'pq://postgres:postgres@localhost:5432/codreams'
-
 WORD2VEC_MODEL_PATH = "../models/GoogleNews-vectors-negative300.bin.gz"
+
+print("Loading model")
+d2v = doc2vec.Doc2Vec(WORD2VEC_MODEL_PATH)
+print("Loading model: done")
+
+class DBConnection(object):
+	def __init__(self):
+		global DATABASE
+		self.pg = postgresql.open(DATABASE)
+		self.ins = self.pg.prepare("INSERT INTO requests (username, location, request, time) VALUES ($1, $2, $3, $4)")
+
+	def destroy(self):
+		self.pg.close()
+
+	def store_request(self, user, location, request):
+		curtime = datetime.datetime.now()
+		self.ins(user, location, request, str(curtime))
+
+#db = DBConnection()
+db = None
 
 class BackendService(http.server.BaseHTTPRequestHandler):
 
-	class DBConnection(object):
-		def __init__(self):
-			global DATABASE
-			self.pg = postgresql.open(DATABASE)
-			self.ins = self.pg.prepare("INSERT INTO requests (username, location, request, time) VALUES ($1, $2, $3, $4)")
 
-		def destroy(self):
-			self.pg.close()
-
-		def store_request(self, user, location, request):
-			curtime = datetime.datetime.now()
-			self.ins(user, location, request, str(curtime))
-
-	def __init__(self):
-		global WORD2VEC_MODEL_PATH
-		#self.db = DBConnection()
-		self.doc2vec = doc2vec.Doc2Vec(WORD2VEC_MODEL_PATH)
+	def __init__(self, *args, **kwargs):
+		global d2v
+		global db
+		print("initing")
+		self.d2v = d2v
+		self.db = db
+		http.server.BaseHTTPRequestHandler.__init__(self, *args, **kwargs)
 
 	def __process_request(self, request):
+		print("processing")
 		username = request["username"]
 		ip = request["ip"]
 		location = request["location"]
 		req = request["request"]
-		self.db.store_request(username, location, req)
+#		self.db.store_request(username, location, req)
+		vec = self.d2v.doc2vec(req)
+		print("vec = ", vec)
 
 	def do_POST(self):
 		content_len = self.headers['Content-Length']
