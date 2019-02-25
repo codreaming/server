@@ -1,1 +1,4 @@
 The folder for models
+
+GoogleNews-vectors-negative300.bin.gz
+

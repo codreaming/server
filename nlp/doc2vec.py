@@ -6,6 +6,7 @@ import gensim
 import nltk
 
 from gensim.models import Word2Vec, KeyedVectors
+from nltk.corpus import stopwords
 
 class Doc2Vec:
     def __init__(self, modelPath):

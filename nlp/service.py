@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import http
 import http.server
@@ -7,7 +8,7 @@ import postgresql
 import datetime
 import doc2vec
 
-DATABASE = 'pq://postgres:postgres@localhost:5432/codreams'
+DATABASE = 'pq://postgres:postgres@127.0.0.1:5432/codreams'
 WORD2VEC_MODEL_PATH = "../models/GoogleNews-vectors-negative300.bin.gz"
 
 print("Loading model")
@@ -18,17 +19,16 @@ class DBConnection(object):
 	def __init__(self):
 		global DATABASE
 		self.pg = postgresql.open(DATABASE)
-		self.ins = self.pg.prepare("INSERT INTO requests (username, location, request, time) VALUES ($1, $2, $3, $4)")
+		self.ins = self.pg.prepare("INSERT INTO requests (username, location, request, time, vec) VALUES ($1, $2, $3, $4, $5)")
 
 	def destroy(self):
 		self.pg.close()
 
-	def store_request(self, user, location, request):
+	def store_request(self, user, location, request, vec):
 		curtime = datetime.datetime.now()
-		self.ins(user, location, request, str(curtime))
+		self.ins(user, location, request, str(curtime), str(vec))
 
-#db = DBConnection()
-db = None
+db = DBConnection()
 
 class BackendService(http.server.BaseHTTPRequestHandler):
 
@@ -47,9 +47,8 @@ class BackendService(http.server.BaseHTTPRequestHandler):
 		ip = request["ip"]
 		location = request["location"]
 		req = request["request"]
-#		self.db.store_request(username, location, req)
 		vec = self.d2v.doc2vec(req)
-		print("vec = ", vec)
+		self.db.store_request(username, location, req, vec)
 
 	def do_POST(self):
 		content_len = self.headers['Content-Length']
