@@ -64,7 +64,7 @@ class AuthController(
                 .fromCurrentContextPath().path("/user/me")
                 .buildAndExpand(result.id).toUri()
         return ResponseEntity.created(location)
-                .body<Any>(ApiResponse(true, "User registered successfully@"))
+                .body<Any>(ApiResponse(true, "User registered successfully"))
     }
 }
 

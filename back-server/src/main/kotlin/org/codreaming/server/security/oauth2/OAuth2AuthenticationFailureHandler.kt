@@ -20,7 +20,7 @@ class OAuth2AuthenticationFailureHandler(
         var targetUrl = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)?.value ?: "/"
 
         targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
-                .queryParam("error", exception.getLocalizedMessage())
+                .queryParam("error", exception.localizedMessage)
                 .build().toUriString()
 
         authorizationRequestRepo.removeAuthorizationRequestCookies(request, response)

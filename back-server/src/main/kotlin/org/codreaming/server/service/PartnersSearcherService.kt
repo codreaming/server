@@ -10,6 +10,6 @@ class PartnersSearcherService {
     }
 
     fun findPartners() {
-        log.info("Find partners method was invocated")
+        log.info("Find partners method was invoked")
     }
 }

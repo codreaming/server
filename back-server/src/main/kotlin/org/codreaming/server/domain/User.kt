@@ -16,45 +16,36 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(name = "users",
         uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("email"))])
-class User() {
-    constructor(name: String, email: String,
-                imageUrl: String = "", provider: AuthProvider,
-                providerId: String = provider.toString()) : this() {
-        this.name = name
-        this.email = email
-        this.imageUrl = imageUrl
-        this.provider = provider
-        this.providerId = providerId
-    }
+class User(
+        @Column(nullable = false)
+        var name: String = "",
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
+        @Email
+        @Column(nullable = false)
+        var email: String = "",
 
-    @Column(nullable = false)
-    var name: String = ""
+        var imageUrl: String = "",
 
-    @Email
-    @Column(nullable = false)
-    var email: String = ""
+        @NotNull
+        @Enumerated(EnumType.STRING)
+        var provider: AuthProvider = AuthProvider.LOCAL,
 
-    var imageUrl: String = ""
+        var providerId: String = provider.toString(),
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    var provider: AuthProvider = AuthProvider.LOCAL
+        @Column(nullable = false)
+        var emailVerified: Boolean = false,
 
-    var providerId: String = ""
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long = 0,
 
-    @Column(nullable = false)
-    var emailVerified: Boolean = false
-
-    @JsonIgnore
-    var password: String = ""
-}
+        @JsonIgnore
+        var password: String = ""
+)
 
 enum class AuthProvider {
     LOCAL,
-    GOOGLE
+    GOOGLE,
+    FACEBOOK
 }
 
